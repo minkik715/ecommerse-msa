@@ -1,0 +1,30 @@
+server:
+  port: 8000
+
+eureka:
+  client:
+    fetch-registry: false
+    register-with-eureka: false
+    service-url:
+      defaultZone: http://localhost:8761/eureka
+
+spring:
+  application:
+    name: api-gateway-service
+  cloud:
+    gateway:
+      routes:
+        - id: first-service
+          uri: http://localhost:63388/
+          predicates:
+            - Path=/user-service/**
+          filters:
+            - AddRequestHeader=user-request-header, first-request-header
+            - AddResponseHeader=user-response-header, first-response-header
+        - id: second-service
+          uri: http://localhost:8002/
+          predicates:
+            - Path=/second-service/**
+          filters:
+            - AddRequestHeader=second-request, second-request-header
+            - AddResponseHeader=second-response, second-response-header
