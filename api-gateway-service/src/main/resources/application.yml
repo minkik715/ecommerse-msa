@@ -13,18 +13,30 @@ spring:
     name: api-gateway-service
   cloud:
     gateway:
+      default-filters:
+        - name: GlobalFilter
+          args:
+            baseMessage: "Spring Cloud Gateway Global Filter"
+            preLogger: true
+            postLogger: true
       routes:
         - id: first-service
-          uri: http://localhost:63388/
+          uri: http://localhost:8001/
           predicates:
             - Path=/user-service/**
           filters:
-            - AddRequestHeader=user-request-header, first-request-header
-            - AddResponseHeader=user-response-header, first-response-header
-        - id: second-service
-          uri: http://localhost:8002/
-          predicates:
-            - Path=/second-service/**
-          filters:
-            - AddRequestHeader=second-request, second-request-header
-            - AddResponseHeader=second-response, second-response-header
+            - name: LoggingFilter
+              args:
+                baseMessage: Logging worked
+                preLogger: true
+                postLogger: true
+            - name: CustomFilter
+            #- AddRequestHeader=user-request-header, first-request-header
+            #- AddResponseHeader=user-response-header, first-response-header
+        #- id: second-service
+        #  uri: http://localhost:8002/
+        #  predicates:
+        #    - Path=/second-service/**
+        #  filters:
+        #    - AddRequestHeader=second-request, second-request-header
+        #    - AddResponseHeader=second-response, second-response-header
