@@ -12,13 +12,14 @@ class UserController {
 
     val log = LoggerFactory.getLogger(UserController::class.java);
     @GetMapping("/welcome")
-    fun welcome(@RequestHeader("user-request-header", required = false) header: String): String {
+    fun welcome(@RequestHeader("user-request-header", required = false) header: String?): String {
         log.info(header)
         return "welcome"
     }
 
     @GetMapping("/check")
     fun welcome(): String {
+        log.info("췤@ ${System.currentTimeMillis()}")
         return "Hi checker"
     }
 }
