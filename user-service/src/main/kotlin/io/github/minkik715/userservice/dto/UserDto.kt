@@ -9,14 +9,14 @@ data class UserDto(
     val name: String,
     val pwd: String,
     val createdAt: Date,
-    val encryptedPwd: String,
     val userId: String = UUID.randomUUID().toString(),
 ){
-    constructor(requestUser: RequestUser, encryptedPwd: String): this(
+    lateinit var encryptedPwd: String
+
+    constructor(requestUser: RequestUser): this(
         requestUser.email,
         requestUser.name,
         requestUser.pwd,
         Date(),
-        encryptedPwd
     )
 }

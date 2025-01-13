@@ -26,6 +26,9 @@ class UserController(
 
     @PostMapping("/users")
     fun createUser(@RequestBody user: RequestUser): ResponseEntity<ResponseUser> {
-        return ResponseEntity.status(HttpStatus.CREATED).body(userService.createUser(UserDto(user, "")))
+        return ResponseEntity.status(HttpStatus.CREATED).body(
+            userService.createUser(UserDto(user)
+            )
+        )
     }
 }
