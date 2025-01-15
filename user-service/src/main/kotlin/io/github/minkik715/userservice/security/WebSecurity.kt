@@ -16,10 +16,16 @@ class WebSecurity {
     fun filterChain(http: HttpSecurity): SecurityFilterChain {
         http.csrf { it.disable() }
         http.authorizeHttpRequests {
-            it.requestMatchers("/user-service/users/**")
-                .permitAll()
+            it
                 .requestMatchers("/h2-console/**")
                 .permitAll()
+                .requestMatchers("/**")
+                .permitAll()
+
+
+                //.requestMatchers("/user-service/users/**")
+                //.permitAll()
+
         }
         http.headers { it.frameOptions { it.disable() } }
         return http.build()

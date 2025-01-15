@@ -10,6 +10,7 @@ import org.springframework.core.env.Environment
 import org.springframework.http.HttpStatus
 import org.springframework.http.ResponseEntity
 import org.springframework.web.bind.annotation.GetMapping
+import org.springframework.web.bind.annotation.PathVariable
 import org.springframework.web.bind.annotation.PostMapping
 import org.springframework.web.bind.annotation.RequestBody
 import org.springframework.web.bind.annotation.RequestMapping
@@ -29,6 +30,20 @@ class UserController(
         return ResponseEntity.status(HttpStatus.CREATED).body(
             userService.createUser(UserDto(user)
             )
+        )
+    }
+
+    @GetMapping("/users")
+    fun getUsers(): ResponseEntity<List<ResponseUser>> {
+        return ResponseEntity.status(HttpStatus.OK).body(
+            userService.getUsers()
+        )
+    }
+
+    @GetMapping("/users/{userId}")
+    fun getUser(@PathVariable userId: String): ResponseEntity<ResponseUser> {
+        return ResponseEntity.status(HttpStatus.OK).body(
+            userService.getUserByUserId(userId)
         )
     }
 }

@@ -1,6 +1,7 @@
 package io.github.minkik715.userservice.entity
 
 import io.github.minkik715.userservice.dto.UserDto
+import io.github.minkik715.userservice.vo.ResponseOrder
 import io.github.minkik715.userservice.vo.ResponseUser
 import jakarta.persistence.Column
 import jakarta.persistence.Entity
@@ -26,18 +27,19 @@ class UserEntity(
     @Column(nullable = false, length = 50)
     var name: String = userDto.name
 
-    @Column(nullable = false, length = 50)
+    @Column(nullable = false, length = 200)
     var encryptedPwd: String = userDto.encryptedPwd
 
     @Column
     var createdAt: Date = userDto.createdAt
 
-    fun toResponse(): ResponseUser {
+    fun toResponse(orders: Collection<ResponseOrder> = mutableListOf()): ResponseUser {
         return ResponseUser(
             this.email,
             this.name,
             this.userId,
             this.createdAt,
+            orders
         )
     }
 }
