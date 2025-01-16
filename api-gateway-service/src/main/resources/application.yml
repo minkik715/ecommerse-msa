@@ -24,13 +24,17 @@ spring:
           uri: lb://USER-SERVICE
           predicates:
             - Path=/user-service/**
-          filters:
-            - name: LoggingFilter
-              args:
-                baseMessage: Logging worked
-                preLogger: true
-                postLogger: true
-            - name: CustomFilter
+        - id: catalog-service
+          uri: lb://CATALOG-SERVICE
+          predicates:
+            - Path=/catalog-service/**
+#          filters:
+#            - name: LoggingFilter
+#              args:
+#                baseMessage: Logging worked
+#                preLogger: true
+#                postLogger: true
+#            - name: CustomFilter
             #- AddRequestHeader=user-request-header, first-request-header
             #- AddResponseHeader=user-response-header, first-response-header
         #- id: second-service

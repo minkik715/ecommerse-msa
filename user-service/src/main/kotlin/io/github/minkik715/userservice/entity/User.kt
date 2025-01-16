@@ -8,6 +8,7 @@ import jakarta.persistence.Entity
 import jakarta.persistence.GeneratedValue
 import jakarta.persistence.GenerationType
 import jakarta.persistence.Id
+import org.hibernate.annotations.ColumnDefault
 import java.util.Date
 
 @Entity(name = "users")
@@ -30,7 +31,8 @@ class UserEntity(
     @Column(nullable = false, length = 200)
     var encryptedPwd: String = userDto.encryptedPwd
 
-    @Column
+    @Column(nullable = false, updatable = false, insertable = false)
+    @ColumnDefault(value = "CURRENT_TIMESTAMP")
     var createdAt: Date = userDto.createdAt
 
     fun toResponse(orders: Collection<ResponseOrder> = mutableListOf()): ResponseUser {
