@@ -12,13 +12,14 @@ import org.springframework.security.web.authentication.UsernamePasswordAuthentic
 
 class AuthenticationFilter(
     private val objectMapper: ObjectMapper,
+    private val authenticationManager: AuthenticationManager
 ) : UsernamePasswordAuthenticationFilter() {
 
     override fun attemptAuthentication(request: HttpServletRequest, response: HttpServletResponse): Authentication {
 
         val loginRequest = objectMapper.readValue(request.inputStream, RequestLogin::class.java)
 
-        return this.authenticationManager.authenticate(
+        return authenticationManager.authenticate(
             UsernamePasswordAuthenticationToken(
                 loginRequest.email,
                 loginRequest.password,

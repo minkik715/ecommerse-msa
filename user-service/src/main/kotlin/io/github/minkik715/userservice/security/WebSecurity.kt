@@ -1,6 +1,7 @@
 package io.github.minkik715.userservice.security
 
 import com.fasterxml.jackson.databind.ObjectMapper
+import io.github.minkik715.userservice.service.UserService
 import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.context.annotation.Bean
 import org.springframework.context.annotation.Configuration
@@ -17,14 +18,23 @@ import org.springframework.security.web.authentication.UsernamePasswordAuthentic
 @Configuration
 @EnableWebSecurity
 class WebSecurity(
-    private val objectMapper: ObjectMapper
+    private val objectMapper: ObjectMapper,
+    private val userService: UserService,
+    private val passwordEncoder: BCryptPasswordEncoder
 ){
 
     @Bean
-    fun filterChain(http: HttpSecurity): SecurityFilterChain {
+    fun filterChain(http: HttpSecurity,): SecurityFilterChain {
+        val authenticationManagerBuilder = http.getSharedObject(AuthenticationManagerBuilder::class.java)
+        authenticationManagerBuilder.userDetailsService(userService).passwordEncoder(passwordEncoder);
+
+        val authenticationManager = authenticationManagerBuilder.build()
+
+
         http.csrf { it.disable() }
-        http.addFilter(AuthenticationFilter(objectMapper))
-        http.authorizeHttpRequests {
+            .authenticationManager(authenticationManager)
+            .addFilter(AuthenticationFilter(objectMapper, authenticationManager))
+            .authorizeHttpRequests {
             it
                 .requestMatchers("/h2-console/**")
                 .permitAll()
@@ -40,8 +50,5 @@ class WebSecurity(
         return http.build()
     }
 
-    @Bean
-    fun passwordEncoder(): BCryptPasswordEncoder{
-        return BCryptPasswordEncoder()
-    }
+
 }
