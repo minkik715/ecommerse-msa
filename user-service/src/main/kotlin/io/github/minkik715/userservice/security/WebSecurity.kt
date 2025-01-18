@@ -33,15 +33,11 @@ class WebSecurity(
 
         http.csrf { it.disable() }
             .authenticationManager(authenticationManager)
-            .addFilter(AuthenticationFilter(objectMapper, authenticationManager))
+            .addFilter(AuthenticationFilter(objectMapper, authenticationManager, userService))
             .authorizeHttpRequests {
             it
-                .requestMatchers("/h2-console/**")
-                .permitAll()
                 .requestMatchers("/**")
-                .authenticated()
-
-
+                .permitAll()
                 //.requestMatchers("/user-service/users/**")
                 //.permitAll()
 

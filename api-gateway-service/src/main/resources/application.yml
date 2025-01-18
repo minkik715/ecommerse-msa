@@ -27,7 +27,6 @@ spring:
             - Method=POST
           filters:
             - RemoveRequestHeader=Cookie
-            - Path=/user-service/**
             - RewritePath=/user-service/(?<segment>.*), /$\{segment}
         - id: user-service
           uri: lb://USER-SERVICE
@@ -36,16 +35,13 @@ spring:
             - Method=POST
           filters:
             - RemoveRequestHeader=Cookie
-            - Path=/user-service/**
             - RewritePath=/user-service/(?<segment>.*), /$\{segment}
         - id: user-service
           uri: lb://USER-SERVICE
           predicates:
-            - Path=/user-service/users
-            - Method=POST
+            - Path=/user-service/**
           filters:
             - RemoveRequestHeader=Cookie
-            - Path=/user-service/**
             - RewritePath=/user-service/(?<segment>.*), /$\{segment}
         - id: catalog-service
           uri: lb://CATALOG-SERVICE

@@ -37,6 +37,11 @@ class UserServiceImpl(
             ?: throw IllegalArgumentException("user not found $userId")
     }
 
+    override fun getUserDetailsByEmail(email: String): UserDto {
+        return userRepository.findByEmail(email)?.toDto()
+            ?: throw IllegalArgumentException("$email not found")
+    }
+
     override fun getUsers(): List<ResponseUser> {
         return userRepository.findAll().map {
             val orders: List<ResponseOrder> = mutableListOf()

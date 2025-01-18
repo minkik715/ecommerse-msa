@@ -44,4 +44,14 @@ class UserEntity(
             orders
         )
     }
+
+    fun toDto(): UserDto {
+        return UserDto(
+            this.email,
+            this.name,
+            this.encryptedPwd,
+            this.createdAt,
+            this.userId
+        )
+    }
 }
