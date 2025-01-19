@@ -2,7 +2,11 @@ package io.github.minkik715.userservice.security
 
 import com.fasterxml.jackson.databind.ObjectMapper
 import io.github.minkik715.userservice.service.UserService
+import io.github.minkik715.userservice.vo.JwtProperties
 import io.github.minkik715.userservice.vo.RequestLogin
+import io.jsonwebtoken.Jwts
+import io.jsonwebtoken.SignatureAlgorithm
+import io.jsonwebtoken.security.Keys
 import jakarta.servlet.FilterChain
 import jakarta.servlet.http.HttpServletRequest
 import jakarta.servlet.http.HttpServletResponse
@@ -11,11 +15,13 @@ import org.springframework.security.authentication.UsernamePasswordAuthenticatio
 import org.springframework.security.core.Authentication
 import org.springframework.security.core.userdetails.User
 import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter
+import java.util.*
 
 class AuthenticationFilter(
     private val objectMapper: ObjectMapper,
     private val authenticationManager: AuthenticationManager,
-    private val userService: UserService
+    private val userService: UserService,
+    private val jwtProperties: JwtProperties
 ) : UsernamePasswordAuthenticationFilter() {
 
     override fun attemptAuthentication(request: HttpServletRequest, response: HttpServletResponse): Authentication {
@@ -39,10 +45,18 @@ class AuthenticationFilter(
     ) {
         val email = (authResult.principal as User).username
 
+        val key = Keys.hmacShaKeyFor(objectMapper.writeValueAsBytes(jwtProperties.secret))
         userService.getUserDetailsByEmail(email).let { user ->
-            //TODO CREATeJWT
-             println(user)
+            val token = Jwts.builder()
+                .subject(user.userId)
+                .expiration(Date(System.currentTimeMillis() + jwtProperties.expire))
+                .signWith(key, Jwts.SIG.HS512)
+                .compact()
+            response.addHeader("token", token)
+            response.addHeader("userId", user.userId)
         }
+
+
 
     }
 }

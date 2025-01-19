@@ -33,3 +33,6 @@ eureka:
 greeting:
   message: Welcome to the Simple E-Commerce.
 
+jwt:
+  secret: "secret"
+  expire: 3600000
