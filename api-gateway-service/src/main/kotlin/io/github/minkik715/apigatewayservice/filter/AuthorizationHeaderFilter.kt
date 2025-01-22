@@ -30,29 +30,34 @@ class AuthorizationHeaderFilter(
             }
 
             val authHeader =  request.headers.get(HttpHeaders.AUTHORIZATION)!!.first()
+            val subject =  request.headers.get("SUBJECT")?.first()
+                ?: return@GatewayFilter onError(exchange, "X-HEADER-SUBJECT must not be null", HttpStatus.UNAUTHORIZED)
 
-            val jwt = authHeader.replace("Bearer", "")
-            if(!jwtValid(jwt)){
+            val jwt = authHeader.replace("Bearer ", "")
+            if(!jwtValid(jwt, subject)){
                 return@GatewayFilter onError(exchange, "JWT token is not valid $jwt", HttpStatus.UNAUTHORIZED)
             }
-            Jwts.parser()
+
 
             chain.filter(exchange)
         }
 
     }
 
-    private fun jwtValid(jwt: String): Boolean {
+    private fun jwtValid(jwt: String, subject: String): Boolean {
         var result = true
-        val secretKey: SecretKey = Keys.hmacShaKeyFor(jwtProperties.secret.toByteArray())
-        val subject = runCatching {
+        val tokenSubject = runCatching {
+            val secretKey: SecretKey = Keys.hmacShaKeyFor(jwtProperties.secret.toByteArray())
             Jwts.parser().verifyWith(secretKey).build().parseSignedClaims(jwt).payload.subject
         }.onFailure {
             log.error(it.message)
             result = false
         }.getOrNull()
 
-        if(subject.isNullOrEmpty()){
+        if(tokenSubject.isNullOrEmpty()){
+            result = false
+        }
+        if(subject != tokenSubject){
             result = false
         }
         return result

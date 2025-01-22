@@ -2,6 +2,7 @@ package io.github.minkik715.userservice.security
 
 import com.fasterxml.jackson.databind.ObjectMapper
 import io.github.minkik715.userservice.service.UserService
+import io.github.minkik715.userservice.vo.JwtProperties
 import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.context.annotation.Bean
 import org.springframework.context.annotation.Configuration
@@ -20,7 +21,8 @@ import org.springframework.security.web.authentication.UsernamePasswordAuthentic
 class WebSecurity(
     private val objectMapper: ObjectMapper,
     private val userService: UserService,
-    private val passwordEncoder: BCryptPasswordEncoder
+    private val passwordEncoder: BCryptPasswordEncoder,
+    private val jwtPropertiese: JwtProperties
 ){
 
     @Bean
@@ -33,7 +35,7 @@ class WebSecurity(
 
         http.csrf { it.disable() }
             .authenticationManager(authenticationManager)
-            .addFilter(AuthenticationFilter(objectMapper, authenticationManager, userService))
+            .addFilter(AuthenticationFilter(objectMapper, authenticationManager, userService,jwtPropertiese ))
             .authorizeHttpRequests {
             it
                 .requestMatchers("/**")

@@ -45,12 +45,12 @@ class AuthenticationFilter(
     ) {
         val email = (authResult.principal as User).username
 
-        val key = Keys.hmacShaKeyFor(objectMapper.writeValueAsBytes(jwtProperties.secret))
+        val key = Keys.hmacShaKeyFor(jwtProperties.secret.toByteArray())
         userService.getUserDetailsByEmail(email).let { user ->
             val token = Jwts.builder()
                 .subject(user.userId)
                 .expiration(Date(System.currentTimeMillis() + jwtProperties.expire))
-                .signWith(key, Jwts.SIG.HS512)
+                .signWith(key, Jwts.SIG.HS256)
                 .compact()
             response.addHeader("token", token)
             response.addHeader("userId", user.userId)

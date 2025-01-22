@@ -73,4 +73,4 @@ spring:
 
 
 jwt:
-  secret: "my_secret"
+  secret: "my_secret_key_has_to_be_more_than_32Bytes"
