@@ -69,8 +69,3 @@ spring:
         #  filters:
         #    - AddRequestHeader=second-request, second-request-header
         #    - AddResponseHeader=second-response, second-response-header
-
-
-
-jwt:
-  secret: "my_secret_key_has_to_be_more_than_32Bytes"

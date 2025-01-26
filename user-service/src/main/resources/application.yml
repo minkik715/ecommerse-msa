@@ -32,7 +32,3 @@ eureka:
 
 greeting:
   message: Welcome to the Simple E-Commerce.
-
-jwt:
-  secret: "my_secret_key_has_to_be_more_than_32Bytes"
-  expire: 3600000
