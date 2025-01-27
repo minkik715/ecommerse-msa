@@ -2,9 +2,12 @@ package io.github.minkik715.userservice.service
 
 import io.github.minkik715.userservice.dto.UserDto
 import io.github.minkik715.userservice.entity.UserEntity
+import io.github.minkik715.userservice.feign.OrderServiceClient
+import io.github.minkik715.userservice.proterty.AppProperties
 import io.github.minkik715.userservice.repository.UserRepository
 import io.github.minkik715.userservice.vo.ResponseOrder
 import io.github.minkik715.userservice.vo.ResponseUser
+import org.slf4j.LoggerFactory
 import org.springframework.security.core.userdetails.User
 import org.springframework.security.core.userdetails.UserDetails
 import org.springframework.security.core.userdetails.UsernameNotFoundException
@@ -13,8 +16,12 @@ import org.springframework.stereotype.Service
 
 @Service
 class UserServiceImpl(
-    private val userRepository: UserRepository, private val passwordEncoder: BCryptPasswordEncoder
+    private val userRepository: UserRepository,
+    private val passwordEncoder: BCryptPasswordEncoder,
+    private val orderServiceClient: OrderServiceClient
 ) : UserService {
+
+    val logger = LoggerFactory.getLogger(UserService::class.java)
 
     override fun loadUserByUsername(email: String): UserDetails {
         return userRepository.findByEmail(email)?.let {
@@ -32,7 +39,7 @@ class UserServiceImpl(
     }
 
     override fun getUserByUserId(userId: String): ResponseUser {
-        val orders: List<ResponseOrder> = mutableListOf()
+        val orders: List<ResponseOrder> = getOrders(userId)
         return userRepository.findByUserId(userId)?.toResponse(orders)
             ?: throw IllegalArgumentException("user not found $userId")
     }
@@ -49,5 +56,11 @@ class UserServiceImpl(
         };
     }
 
-
+    private fun getOrders(userId: String): List<ResponseOrder> {
+        return runCatching {
+            orderServiceClient.getUserOrders(userId)
+        }.onFailure {
+            logger.error(it.message)
+        }.getOrDefault(emptyList())
+    }
 }

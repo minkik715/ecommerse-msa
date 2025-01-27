@@ -45,3 +45,10 @@ management:
       exposure:
         include: busrefresh
 
+
+jwt:
+  secret: "my_secret_key_has_to_be_more_than_32Bytes_default_now"
+  expire: 3600000
+
+app:
+  order-service: http://ORDER-SERVICE/order-service

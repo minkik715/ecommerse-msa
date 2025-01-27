@@ -75,8 +75,6 @@ spring:
         #    - AddRequestHeader=second-request, second-request-header
         #    - AddResponseHeader=second-response, second-response-header
 
-#management:
-#  endpoints:
-#    web:
-#      exposure:
-#        include: busrefresh
+jwt:
+  secret: "my_secret_key_has_to_be_more_than_32Bytes_default_now"
+  expire: 3600000
