@@ -1,4 +1,4 @@
-package io.github.minkik715.userservice.vo
+package io.github.minkik715.userservice.proterty
 
 
 class GreetingProperties {

@@ -2,10 +2,9 @@ package io.github.minkik715.userservice.security
 
 import com.fasterxml.jackson.databind.ObjectMapper
 import io.github.minkik715.userservice.service.UserService
-import io.github.minkik715.userservice.vo.JwtProperties
+import io.github.minkik715.userservice.proterty.JwtProperties
 import io.github.minkik715.userservice.vo.RequestLogin
 import io.jsonwebtoken.Jwts
-import io.jsonwebtoken.SignatureAlgorithm
 import io.jsonwebtoken.security.Keys
 import jakarta.servlet.FilterChain
 import jakarta.servlet.http.HttpServletRequest

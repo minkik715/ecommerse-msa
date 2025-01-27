@@ -11,6 +11,11 @@ eureka:
 spring:
   application:
     name: api-gateway-service
+  rabbitmq:
+    host: localhost
+    port: 5672
+    username: guest
+    password: guest
   cloud:
     gateway:
       default-filters:
@@ -69,3 +74,9 @@ spring:
         #  filters:
         #    - AddRequestHeader=second-request, second-request-header
         #    - AddResponseHeader=second-response, second-response-header
+
+#management:
+#  endpoints:
+#    web:
+#      exposure:
+#        include: busrefresh
