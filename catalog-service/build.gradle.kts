@@ -29,8 +29,8 @@ dependencies {
     implementation("org.springframework.cloud:spring-cloud-starter-netflix-eureka-client")
 
     implementation("org.springframework.kafka:spring-kafka:3.3.2")
-
-    runtimeOnly("com.h2database:h2")
+    implementation ("com.fasterxml.jackson.datatype:jackson-datatype-hibernate5")
+    runtimeOnly ("org.mariadb.jdbc:mariadb-java-client:2.7.4")
     testImplementation("org.springframework.boot:spring-boot-starter-test")
     testImplementation("org.jetbrains.kotlin:kotlin-test-junit5")
     testRuntimeOnly("org.junit.platform:junit-platform-launcher")

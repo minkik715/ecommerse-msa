@@ -37,7 +37,8 @@ dependencies {
     implementation("com.fasterxml.jackson.module:jackson-module-kotlin")
     implementation("org.jetbrains.kotlin:kotlin-reflect")
     implementation("org.springframework.cloud:spring-cloud-starter-netflix-eureka-client")
-    implementation("com.h2database:h2:2.3.232")
+    implementation ("com.fasterxml.jackson.datatype:jackson-datatype-hibernate5")
+    runtimeOnly ("org.mariadb.jdbc:mariadb-java-client:2.7.4")
     implementation ("org.springframework.boot:spring-boot-starter-validation")
 
     //developmentOnly("org.springframework.boot:spring-boot-devtools")
