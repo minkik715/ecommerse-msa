@@ -7,6 +7,6 @@ import org.springframework.web.bind.annotation.PathVariable
 
 @FeignClient(name="order-service")
 interface OrderServiceClient {
-    @GetMapping("/order-service/{userId}/orders_")
+    @GetMapping("/order-service/{userId}/orders")
     fun getUserOrders(@PathVariable userId: String): List<ResponseOrder>
 }

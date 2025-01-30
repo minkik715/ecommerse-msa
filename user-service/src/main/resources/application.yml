@@ -21,6 +21,7 @@ spring:
     hibernate:
       ddl-auto: update
     show-sql: true
+
 eureka:
   instance:
     instance-id: ${spring.application.name}:${spring.application.instance_id:${random.value}}
@@ -39,8 +40,9 @@ management:
     web:
       exposure:
         include: busrefresh
-
-
+  tracing:
+    sampling:
+      probability: 1.0
 jwt:
   secret: "my_secret_key_has_to_be_more_than_32Bytes_default_now"
   expire: 3600000
