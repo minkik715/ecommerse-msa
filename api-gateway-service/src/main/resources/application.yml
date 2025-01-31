@@ -78,3 +78,18 @@ spring:
 jwt:
   secret: "my_secret_key_has_to_be_more_than_32Bytes_default_now"
   expire: 3600000
+
+management:
+  endpoints:
+    web:
+      exposure:
+        include: busrefresh, metrics, info, prometheus
+  zipkin:
+    tracing:
+      endpoint: http://localhost:9411/api/v2/spans
+  tracing:
+    sampling:
+      probability: 1.0
+    propagation:
+      consume: b3
+      produce: b3

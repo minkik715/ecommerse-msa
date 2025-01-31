@@ -33,6 +33,14 @@ dependencies {
     implementation("org.springframework.cloud:spring-cloud-starter-config")
     implementation("org.springframework.cloud:spring-cloud-starter-bootstrap")
 
+    implementation ("io.micrometer:micrometer-registry-prometheus")
+
+    implementation("io.micrometer:micrometer-observation")
+    implementation("io.micrometer:micrometer-tracing-bridge-brave")
+    implementation("io.zipkin.brave:brave-instrumentation-spring-web")
+    implementation("io.zipkin.reporter2:zipkin-reporter-brave")
+    implementation("io.github.openfeign:feign-micrometer")
+
     testImplementation("org.springframework.boot:spring-boot-starter-test")
     testImplementation("org.jetbrains.kotlin:kotlin-test-junit5")
     testRuntimeOnly("org.junit.platform:junit-platform-launcher")
