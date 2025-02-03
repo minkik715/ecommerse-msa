@@ -7,7 +7,7 @@ plugins {
 }
 
 group = "io.github.minkik715"
-version = "0.0.1-SNAPSHOT"
+version = "1.0"
 
 allOpen {
     annotation("javax.persistence.Entity")
